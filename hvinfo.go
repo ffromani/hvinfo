@@ -15,24 +15,24 @@ import (
 type HypervIdentity struct{} // we don't care atm
 
 type HypervFeatures struct {
-	GuestDebugging                              bool `json:"omitempty"`
-	PerformanceMonitor                          bool `json:"omitempty"`
-	PCPUDynamicPartitioningEvents               bool `json:"omitempty"`
-	HypercallInputParamsXMM                     bool `json:"omitempty"`
-	VirtualGuestIdleState                       bool `json:"omitempty"`
-	HypervisorSleepState                        bool `json:"omitempty"`
-	NUMADistanceQuery                           bool `json:"omitempty"`
-	TimerFrequenciesQuery                       bool `json:"omitempty"`
-	SytheticMCEInjection                        bool `json:"omitempty"`
-	GuestCrashMSR                               bool `json:"omitempty"`
-	DebugMSR                                    bool `json:"omitempty"`
-	NPIEP                                       bool `json:"omitempty"`
-	DisableHypervisorAvailable                  bool `json:"omitempty"`
-	ExtendedGvaRangesForFlushVirtualAddressList bool `json:"omitempty"`
-	HypercallOutputReturnXMM                    bool `json:"omitempty"`
-	SintPollingMode                             bool `json:"omitempty"`
-	HypercallMsrLock                            bool `json:"omitempty"`
-	UseDirectSyntheticTimers                    bool `json:"omitempty"`
+	GuestDebugging                              bool `json:",omitempty"`
+	PerformanceMonitor                          bool `json:",omitempty"`
+	PCPUDynamicPartitioningEvents               bool `json:",omitempty"`
+	HypercallInputParamsXMM                     bool `json:",omitempty"`
+	VirtualGuestIdleState                       bool `json:",omitempty"`
+	HypervisorSleepState                        bool `json:",omitempty"`
+	NUMADistanceQuery                           bool `json:",omitempty"`
+	TimerFrequenciesQuery                       bool `json:",omitempty"`
+	SytheticMCEInjection                        bool `json:",omitempty"`
+	GuestCrashMSR                               bool `json:",omitempty"`
+	DebugMSR                                    bool `json:",omitempty"`
+	NPIEP                                       bool `json:",omitempty"`
+	DisableHypervisorAvailable                  bool `json:",omitempty"`
+	ExtendedGvaRangesForFlushVirtualAddressList bool `json:",omitempty"`
+	HypercallOutputReturnXMM                    bool `json:",omitempty"`
+	SintPollingMode                             bool `json:",omitempty"`
+	HypercallMsrLock                            bool `json:",omitempty"`
+	UseDirectSyntheticTimers                    bool `json:",omitempty"`
 }
 
 func GetHypervFeatures(enabled bool) *HypervFeatures {
@@ -62,25 +62,25 @@ func GetHypervFeatures(enabled bool) *HypervFeatures {
 }
 
 type HypervRecommendations struct {
-	HypercallAddressSpaceSwitch   bool   `json:"omitempty"`
-	HypercallLocalTLBFlush        bool   `json:"omitempty"`
-	HypercallRemoteTLBFlush       bool   `json:"omitempty"`
-	MSRAPICRegisters              bool   `json:"omitempty"`
-	MSRSystemReset                bool   `json:"omitempty"`
-	RelaxedTiming                 bool   `json:"omitempty"`
-	DMARemapping                  bool   `json:"omitempty"`
-	InterruptRemapping            bool   `json:"omitempty"`
-	X2APICMSR                     bool   `json:"omitempty"`
-	DeprecatingAutoEOI            bool   `json:"omitempty"`
-	SyntheticClusterIPI           bool   `json:"omitempty"`
-	ExProcessorMasks              bool   `json:"omitempty"`
-	Nested                        bool   `json:"omitempty"`
-	INTForMBECSyscalls            bool   `json:"omitempty"`
-	NestedEVMCS                   bool   `json:"omitempty"`
-	SyncedTimeline                bool   `json:"omitempty"`
-	DirectLocalFlushEntire        bool   `json:"omitempty"`
-	NoNonArchitecturalCoreSharing bool   `json:"omitempty"`
-	SpinlockRetries               uint64 `json:"omitempty"`
+	HypercallAddressSpaceSwitch   bool   `json:",omitempty"`
+	HypercallLocalTLBFlush        bool   `json:",omitempty"`
+	HypercallRemoteTLBFlush       bool   `json:",omitempty"`
+	MSRAPICRegisters              bool   `json:",omitempty"`
+	MSRSystemReset                bool   `json:",omitempty"`
+	RelaxedTiming                 bool   `json:",omitempty"`
+	DMARemapping                  bool   `json:",omitempty"`
+	InterruptRemapping            bool   `json:",omitempty"`
+	X2APICMSR                     bool   `json:",omitempty"`
+	DeprecatingAutoEOI            bool   `json:",omitempty"`
+	SyntheticClusterIPI           bool   `json:",omitempty"`
+	ExProcessorMasks              bool   `json:",omitempty"`
+	Nested                        bool   `json:",omitempty"`
+	INTForMBECSyscalls            bool   `json:",omitempty"`
+	NestedEVMCS                   bool   `json:",omitempty"`
+	SyncedTimeline                bool   `json:",omitempty"`
+	DirectLocalFlushEntire        bool   `json:",omitempty"`
+	NoNonArchitecturalCoreSharing bool   `json:",omitempty"`
+	SpinlockRetries               uint64 `json:",omitempty"`
 }
 
 func GetHypervRecommendations(enabled bool) *HypervRecommendations {
