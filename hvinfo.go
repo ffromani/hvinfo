@@ -15,24 +15,24 @@ import (
 type HypervIdentity struct{} // we don't care atm
 
 type HypervFeatures struct {
-	GuestDebugging                              bool `json:",omitempty"`
-	PerformanceMonitor                          bool `json:",omitempty"`
-	PCPUDynamicPartitioningEvents               bool `json:",omitempty"`
-	HypercallInputParamsXMM                     bool `json:",omitempty"`
-	VirtualGuestIdleState                       bool `json:",omitempty"`
-	HypervisorSleepState                        bool `json:",omitempty"`
-	NUMADistanceQuery                           bool `json:",omitempty"`
-	TimerFrequenciesQuery                       bool `json:",omitempty"`
-	SytheticMCEInjection                        bool `json:",omitempty"`
-	GuestCrashMSR                               bool `json:",omitempty"`
-	DebugMSR                                    bool `json:",omitempty"`
-	NPIEP                                       bool `json:",omitempty"`
-	DisableHypervisorAvailable                  bool `json:",omitempty"`
-	ExtendedGvaRangesForFlushVirtualAddressList bool `json:",omitempty"`
-	HypercallOutputReturnXMM                    bool `json:",omitempty"`
-	SintPollingMode                             bool `json:",omitempty"`
-	HypercallMsrLock                            bool `json:",omitempty"`
-	UseDirectSyntheticTimers                    bool `json:",omitempty"`
+	GuestDebugging                              bool
+	PerformanceMonitor                          bool
+	PCPUDynamicPartitioningEvents               bool
+	HypercallInputParamsXMM                     bool
+	VirtualGuestIdleState                       bool
+	HypervisorSleepState                        bool
+	NUMADistanceQuery                           bool
+	TimerFrequenciesQuery                       bool
+	SytheticMCEInjection                        bool
+	GuestCrashMSR                               bool
+	DebugMSR                                    bool
+	NPIEP                                       bool
+	DisableHypervisorAvailable                  bool
+	ExtendedGvaRangesForFlushVirtualAddressList bool
+	HypercallOutputReturnXMM                    bool
+	SintPollingMode                             bool
+	HypercallMsrLock                            bool
+	UseDirectSyntheticTimers                    bool
 }
 
 func GetHypervFeatures(enabled bool) *HypervFeatures {
@@ -62,25 +62,25 @@ func GetHypervFeatures(enabled bool) *HypervFeatures {
 }
 
 type HypervRecommendations struct {
-	HypercallAddressSpaceSwitch   bool   `json:",omitempty"`
-	HypercallLocalTLBFlush        bool   `json:",omitempty"`
-	HypercallRemoteTLBFlush       bool   `json:",omitempty"`
-	MSRAPICRegisters              bool   `json:",omitempty"`
-	MSRSystemReset                bool   `json:",omitempty"`
-	RelaxedTiming                 bool   `json:",omitempty"`
-	DMARemapping                  bool   `json:",omitempty"`
-	InterruptRemapping            bool   `json:",omitempty"`
-	X2APICMSR                     bool   `json:",omitempty"`
-	DeprecatingAutoEOI            bool   `json:",omitempty"`
-	SyntheticClusterIPI           bool   `json:",omitempty"`
-	ExProcessorMasks              bool   `json:",omitempty"`
-	Nested                        bool   `json:",omitempty"`
-	INTForMBECSyscalls            bool   `json:",omitempty"`
-	NestedEVMCS                   bool   `json:",omitempty"`
-	SyncedTimeline                bool   `json:",omitempty"`
-	DirectLocalFlushEntire        bool   `json:",omitempty"`
-	NoNonArchitecturalCoreSharing bool   `json:",omitempty"`
-	SpinlockRetries               uint64 `json:",omitempty"`
+	HypercallAddressSpaceSwitch   bool
+	HypercallLocalTLBFlush        bool
+	HypercallRemoteTLBFlush       bool
+	MSRAPICRegisters              bool
+	MSRSystemReset                bool
+	RelaxedTiming                 bool
+	DMARemapping                  bool
+	InterruptRemapping            bool
+	X2APICMSR                     bool
+	DeprecatingAutoEOI            bool
+	SyntheticClusterIPI           bool
+	ExProcessorMasks              bool
+	Nested                        bool
+	INTForMBECSyscalls            bool
+	NestedEVMCS                   bool
+	SyncedTimeline                bool
+	DirectLocalFlushEntire        bool
+	NoNonArchitecturalCoreSharing bool
+	SpinlockRetries               uint64
 }
 
 func GetHypervRecommendations(enabled bool) *HypervRecommendations {
@@ -112,9 +112,9 @@ func GetHypervRecommendations(enabled bool) *HypervRecommendations {
 
 type HypervInfo struct {
 	HyperVsupport   bool
-	Identity        *HypervIdentity        `json:",omitempty"`
-	Features        *HypervFeatures        `json:",omitempty"`
-	Recommendations *HypervRecommendations `json:",omitempty"`
+	Identity        *HypervIdentity
+	Features        *HypervFeatures
+	Recommendations *HypervRecommendations
 }
 
 func main() {
