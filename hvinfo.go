@@ -12,8 +12,6 @@ import (
 	"github.com/fromanirh/cpuid"
 )
 
-type HypervIdentity struct{} // we don't care atm
-
 type HypervFeatures struct {
 	GuestDebugging                              bool
 	PerformanceMonitor                          bool
@@ -112,9 +110,8 @@ func GetHypervRecommendations(enabled bool) *HypervRecommendations {
 
 type HypervInfo struct {
 	HyperVsupport   bool
-	Identity        *HypervIdentity
-	Features        *HypervFeatures
-	Recommendations *HypervRecommendations
+	Features        *HypervFeatures        `json:",omitempty"`
+	Recommendations *HypervRecommendations `json:",omitempty"`
 }
 
 func main() {
