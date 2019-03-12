@@ -17,3 +17,12 @@ Should you need to compile for linux (negative test?):
 ```bash
 go build -o binaries/hvinfo hvinfo.go
 ```
+
+## bugs
+
+Trivial bugs and typos in the otherwise simple but repetitive implementation of `hvinfo` may end up in incorrect reporting.
+Please send bugs to fromani at redhat dot com.
+Always include:
+- the version (git commit hash from which the tool is compiled)
+- the output of the tool
+- the errors: what you should see and you don't, or the other way around
