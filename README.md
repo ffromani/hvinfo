@@ -75,6 +75,24 @@ PS C:\Users\admin> .\hvinfo.exe
 }
 ```
 
+## mapping between libvirt domain XML and hvinfo output
+
+| libvirt XML                         | hvinfo JSON                                      | Notes              |
+|-------------------------------------|--------------------------------------------------|--------------------|
+| features.hyperv.relaxed             | Recommendations.RelaxedTiming                    |                    |
+| features.hyperv.vapic               | Recommendations.MSRAPICRegisters                 | needs confirmation |
+| features.hyperv.spinlocks retries=X | Recommendations.SpinlockRetries=X                |                    |
+| features.hyperv.vpindex             | NestedInfo.Features.MSRAccessVPIndex             | needs confirmation |
+| features.hyperv.runtime             | TODO                                             |                    |
+| features.hyperv.synic               | NestedInfo.Features.MSRAccessSyNICRegs           | needs confirmation |
+| features.hyperv.reset               | Recommendations.MSRSystemReset                   |                    |
+| features.hyperv.vendor\_id value=V  | Not implemented                                  | not implemented    |
+| features.hyperv.frequencies         | TODO                                             |                    |
+| features.hyperv.reenlightenment     | NestedInfo.Features.MSRAccessReenlighenmentCtrls |                    |
+| features.hyperv.tlbflush            | Recommendations.HypercallRemoteTLBFlush          |                    |
+| features.hyperv.ipi                 | Recommendations.SyntethicClusterIPI              | needs confirmation |
+| features.hyperv.evmcs               | Recommendations.NestedEVMCS                      |                    |
+
 ## bugs
 
 Trivial bugs and typos in the otherwise simple but repetitive implementation of `hvinfo` may end up in incorrect reporting.
