@@ -25,7 +25,7 @@ git push origin --tags
 if  which github-release 2> /dev/null; then
 	github-release release -t ${TAG} -r hvinfo
 	github-release upload -t ${TAG} -r hvinfo \
-		-n hvinfo-${TAG}-linux-amd64 -f hvinfo-${TAG}-linux-amd64
+		-n hvinfo-${TAG}-linux-amd64 -f binaries/hvinfo-${TAG}-linux-amd64
 	github-release upload -t ${TAG} -r hvinfo \
-		-n hvinfo-${TAG}-windows-amd64.exe -f hvinfo-${TAG}-windows-amd64.exe
+		-n hvinfo-${TAG}-windows-amd64.exe -f binaries/hvinfo-${TAG}-windows-amd64.exe
 fi
