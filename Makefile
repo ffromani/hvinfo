@@ -1,7 +1,7 @@
 all: binaries
 
 binaries:
-	./hack/build.sh ${VERSION}
+	./hack/build.sh $(VERSION)
 
 prepare:
 	mkdir -p binaries
