@@ -9,6 +9,7 @@ branches:
   - /^v[0-9]/
 
 jobs:
+  include:
   - stage: Build and Deploy
     name: Build and Deploy to GitHub
     if: tag IS present
