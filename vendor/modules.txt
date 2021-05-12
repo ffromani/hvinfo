@@ -1,0 +1,3 @@
+# github.com/fromanirh/cpuid v0.0.0-20190312130723-96426c4a1826
+## explicit
+github.com/fromanirh/cpuid
