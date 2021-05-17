@@ -31,6 +31,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 PS C:\Users\admin> .\hvinfo.exe
 {
   "HyperVsupport": true,
+  "VendorId": "Microsoft Hv",
   "Features": {
     "GuestDebugging": false,
     "PerformanceMonitor": false,
@@ -50,6 +51,36 @@ PS C:\Users\admin> .\hvinfo.exe
     "SintPollingMode": false,
     "HypercallMsrLock": false,
     "UseDirectSyntheticTimers": false
+  },
+  "Privileges": {
+    "AccessVpRunTimeReg": false,
+    "AccessPartitionReferenceCounter": true,
+    "AccessSynicRegs": false,
+    "AccessSyntheticTimerRegs": false,
+    "AccessIntrCtrlRegs": true,
+    "AccessHypercallMsrs": true,
+    "AccessVpIndex": false,
+    "AccessResetReg": false,
+    "AccessStatsReg": false,
+    "AccessPartitionReferenceTsc": true,
+    "AccessGuestIdleReg": false,
+    "AccessFrequencyRegs": false,
+    "AccessDebugRegs": false,
+    "AccessReenlightenmentControls": false,
+    "CreatePartitions": false,
+    "AccessPartitionId": false,
+    "AccessMemoryPool": false,
+    "PostMessages": false,
+    "SignalEvents": false,
+    "CreatePort": false,
+    "ConnectPort": false,
+    "AccessStats": false,
+    "Debugging": false,
+    "CpuManagement": false,
+    "AccessVSM": false,
+    "AccessVpRegisters": false,
+    "EnableExtendedHypercalls": false,
+    "StartVirtualProcessor": false
   },
   "Recommendations": {
     "HypercallAddressSpaceSwitch": false,
@@ -82,15 +113,18 @@ PS C:\Users\admin> .\hvinfo.exe
 | features.hyperv.relaxed             | Recommendations.RelaxedTiming                    |                    |
 | features.hyperv.vapic               | Recommendations.MSRAPICRegisters                 | needs confirmation |
 | features.hyperv.spinlocks retries=X | Recommendations.SpinlockRetries=X                |                    |
-| features.hyperv.vpindex             | NestedInfo.Features.MSRAccessVPIndex             | needs confirmation |
-| features.hyperv.runtime             | TODO                                             |                    |
-| features.hyperv.synic               | NestedInfo.Features.MSRAccessSyNICRegs           | needs confirmation |
+| features.hyperv.vpindex             | Privileges.AccessVpIndex                         |                    |
+| features.hyperv.runtime             | Privileges.AccessVpRunTimeReg                    |                    |
+| features.hyperv.crash               | Features.GuestCrashMSR                           |                    |
+| features.hyperv.time                | Privileges.AccessPartitionReferenceCounter       |                    |
+| features.hyperv.synic               | Privileges.AccessSynicRegs                       |                    |
+| features.hyperv.stimer              | Privileges.AccessSyntheticTimerRegs              |                    |
 | features.hyperv.reset               | Recommendations.MSRSystemReset                   |                    |
-| features.hyperv.vendor\_id value=V  | Not implemented                                  | not implemented    |
-| features.hyperv.frequencies         | TODO                                             |                    |
+| features.hyperv.vendor\_id value=V  | VendorId                                         |                    |
+| features.hyperv.frequencies         | Privileges.AccessFrequencyRegs                   |                    |
 | features.hyperv.reenlightenment     | NestedInfo.Features.MSRAccessReenlighenmentCtrls |                    |
 | features.hyperv.tlbflush            | Recommendations.HypercallRemoteTLBFlush          |                    |
-| features.hyperv.ipi                 | Recommendations.SyntethicClusterIPI              | needs confirmation |
+| features.hyperv.ipi                 | Recommendations.SyntheticClusterIPI              | needs confirmation |
 | features.hyperv.evmcs               | Recommendations.NestedEVMCS                      |                    |
 
 ## bugs

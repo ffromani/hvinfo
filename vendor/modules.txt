@@ -1,3 +1,3 @@
-# github.com/fromanirh/cpuid v0.0.0-20190312130723-96426c4a1826
+# github.com/fromanirh/cpuid v0.0.0-20210601120846-9857c91f0de1
 ## explicit
 github.com/fromanirh/cpuid

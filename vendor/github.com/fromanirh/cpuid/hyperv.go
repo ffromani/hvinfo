@@ -21,13 +21,15 @@ var HypervVendorIDSignatureString string
 
 var HypervInterfaceSignatureString string
 
+type HypervFeature uint64
+
 var hypervFeatureFlags uint64
 
-func HypervHasFeature(flag uint64) bool {
-	return (hypervFeatureFlags & flag) != 0
+func HypervHasFeature(flag HypervFeature) bool {
+	return (hypervFeatureFlags & uint64(flag)) != 0
 }
 
-var HypervFeatureNames = map[uint64]string{
+var HypervFeatureNames = map[HypervFeature]string{
 	HYPERV_GUEST_DEBUGGING:                                    "GUEST_DEBUGGING",
 	HYPERV_PERFORMANCE_MONITOR:                                "PERFORMANCE_MONITOR",
 	HYPERV_PCPU_DYNAMIC_PARTITIONING_EVENTS:                   "PCPU_DYNAMIC_PARTITIONING_EVENTS",
@@ -49,7 +51,7 @@ var HypervFeatureNames = map[uint64]string{
 }
 
 const (
-	_ = uint64(1) << iota
+	_ = HypervFeature(1) << iota
 	HYPERV_GUEST_DEBUGGING
 	HYPERV_PERFORMANCE_MONITOR
 	HYPERV_PCPU_DYNAMIC_PARTITIONING_EVENTS
@@ -71,6 +73,84 @@ const (
 	HYPERV_USE_DIRECT_SYNTHETIC_TIMERS
 )
 
+type HypervPartitionPrivilege uint64
+
+func (r HypervPartitionPrivilege) toFlag() uint64 {
+	return uint64(r)
+}
+
+var hypervPartitionPrivilegeFlags uint64
+
+func HypervHasPrivilege (privilege HypervPartitionPrivilege) bool {
+	return (hypervPartitionPrivilegeFlags & privilege.toFlag()) != 0
+}
+
+const (
+	// Access to virtual MSRs
+	HYPERV_AccessVpRunTimeRegs = HypervPartitionPrivilege(1) << iota
+	HYPERV_AccessPartitionReferenceCounter
+	HYPERV_AccessSynicRegs
+	HYPERV_AccessSyntheticTimerRegs
+	HYPERV_AccessIntrCtrlRegs
+	HYPERV_AccessHypercallMsrs
+	HYPERV_AccessVpIndex
+	HYPERV_AccessResetReg
+	HYPERV_AccessStatsReg                 // 8
+	HYPERV_AccessPartitionReferenceTsc
+	HYPERV_AccessGuestIdleReg
+	HYPERV_AccessFrequencyRegs
+	HYPERV_AccessDebugRegs
+	HYPERV_AccessReenlightenmentControls
+	_
+	_
+	_                                     // 16
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_                                     // 24
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+
+	// Access to hypercalls
+	HYPERV_CreatePartitions               // 32
+	HYPERV_AccessPartitionId
+	HYPERV_AccessMemoryPool
+	_
+	HYPERV_PostMessages
+	HYPERV_SignalEvents
+	HYPERV_CreatePort
+	HYPERV_ConnectPort
+	HYPERV_AccessStats                    // 40
+	_
+	_
+	HYPERV_Debugging
+	HYPERV_CpuManagement
+	_
+	_
+	_
+	HYPERV_AccessVSM                      // 48
+	HYPERV_AccessVpRegisters
+	_
+	_
+	HYPERV_EnableExtendedHypercalls
+	HYPERV_StartVirtualProcessor
+)
+
+type HypervRecommendation uint64
+
+func (r HypervRecommendation) toFlag() uint64 {
+	return uint64(r)
+}
+
 var hypervRecommendationFlags uint64
 var hypervSpinlockRetries uint64
 
@@ -80,14 +160,14 @@ func HypervGetSpinlockRetries() uint64 {
 
 func HypervHasAdditionalNestedEnlightenments() bool {
 	// The flag is overloaded. See spec sec. 2.4.5 for details
-	return (hypervRecommendationFlags & HYPERV_NESTED_EVMCS) != 0
+	return (hypervRecommendationFlags & HYPERV_NESTED_EVMCS.toFlag()) != 0
 }
 
-func HypervHasRecommendation(flag uint64) bool {
-	return (hypervRecommendationFlags & flag) != 0
+func HypervHasRecommendation(recommendation HypervRecommendation) bool {
+	return (hypervRecommendationFlags & recommendation.toFlag()) != 0
 }
 
-var HypervRecommendationNames = map[uint64]string{
+var HypervRecommendationNames = map[HypervRecommendation]string{
 	HYPERV_HYPERCALL_ADDRESS_SPACE_SWITCH:    "HYPERV_HYPERCALL_ADDRESS_SPACE_SWITCH",
 	HYPERV_HYPERCALL_LOCAL_TLB_FLUSH:         "HYPERV_HYPERCALL_LOCAL_TLB_FLUSH",
 	HYPERV_HYPERCALL_REMOTE_TLB_FLUSH:        "HYPERV_HYPERCALL_REMOTE_TLB_FLUSH",
@@ -109,7 +189,7 @@ var HypervRecommendationNames = map[uint64]string{
 }
 
 const (
-	HYPERV_HYPERCALL_ADDRESS_SPACE_SWITCH = uint64(1) << iota
+	HYPERV_HYPERCALL_ADDRESS_SPACE_SWITCH = HypervRecommendation(1) << iota
 	HYPERV_HYPERCALL_LOCAL_TLB_FLUSH
 	HYPERV_HYPERCALL_REMOTE_TLB_FLUSH
 	HYPERV_MSR_APIC_REGISTERS
@@ -130,13 +210,19 @@ const (
 	HYPERV_NO_NON_ARCHITECTURAL_CORE_SHARING
 )
 
-var hypervNestedFeatureMSRFlags uint64
+type HypervNestedFeatureMSR uint64
 
-func HypervHasNestedFeatureMSR(flag uint64) bool {
-	return (hypervNestedFeatureMSRFlags & flag) != 0
+func (r HypervNestedFeatureMSR) toFlag() uint64 {
+	return uint64(r)
 }
 
-var HypervNestedFeatureMSRNames = map[uint64]string{
+var hypervNestedFeatureMSRFlags uint64
+
+func HypervHasNestedFeatureMSR(nestedFeatureMSR HypervNestedFeatureMSR) bool {
+	return (hypervNestedFeatureMSRFlags & nestedFeatureMSR.toFlag()) != 0
+}
+
+var HypervNestedFeatureMSRNames = map[HypervNestedFeatureMSR]string{
 	HYPERV_NESTED_FEATURE_MSR_ACCESS_SYNIC_REGS:            "HYPERV_NESTED_FEATURE_MSR_ACCESS_SYNIC_REGS",
 	HYPERV_NESTED_FEATURE_MSR_ACCESS_INTR_CTRL_REGS:        "HYPERV_NESTED_FEATURE_MSR_ACCESS_INTR_CTRL_REGS",
 	HYPERV_NESTED_FEATURE_MSR_ACCESS_HYPERCALL_MSRS:        "HYPERV_NESTED_FEATURE_MSR_ACCESS_HYPERCALL_MSRS",
@@ -145,7 +231,7 @@ var HypervNestedFeatureMSRNames = map[uint64]string{
 }
 
 const (
-	_ = uint64(1) << iota
+	_ = HypervNestedFeatureMSR(1) << iota
 	_
 	HYPERV_NESTED_FEATURE_MSR_ACCESS_SYNIC_REGS
 	_
@@ -160,20 +246,26 @@ const (
 	HYPERV_NESTED_FEATURE_MSR_ACCESS_REENLIGHTENMENT_CTRLS
 )
 
-var hypervNestedFeatureHypercallFlags uint64
+type HypervNestedFeatureHypercall uint64
 
-func HypervHasNestedFeatureHypercall(flag uint64) bool {
-	return (hypervNestedFeatureHypercallFlags & flag) != 0
+func (r HypervNestedFeatureHypercall) toFlag() uint64 {
+	return uint64(r)
 }
 
-var HypervNestedFeatureHypercallNames = map[uint64]string{
+var hypervNestedFeatureHypercallFlags uint64
+
+func HypervHasNestedFeatureHypercall(nestedFeatureHypercall HypervNestedFeatureHypercall) bool {
+	return (hypervNestedFeatureHypercallFlags & nestedFeatureHypercall.toFlag()) != 0
+}
+
+var HypervNestedFeatureHypercallNames = map[HypervNestedFeatureHypercall]string{
 	HYPERV_NESTED_FEATURE_HYPERCALL_FAST_XMM_REGISTER: "HYPERV_NESTED_FEATURE_HYPERCALL_FAST_XMM_REGISTER",
 	HYPERV_NESTED_FEATURE_HYPERCALL_FAST_OUTPUT:       "HYPERV_NESTED_FEATURE_HYPERCALL_FAST_OUTPUT",
 	HYPERV_NESTED_FEATURE_HYPERCALL_SINT_POLLING_MODE: "HYPERV_NESTED_FEATURE_HYPERCALL_SINT_POLLING_MODE",
 }
 
 const (
-	_ = uint64(1) << iota
+	_ = HypervNestedFeatureHypercall(1) << iota
 	_
 	_
 	_
@@ -193,20 +285,26 @@ const (
 	HYPERV_NESTED_FEATURE_HYPERCALL_SINT_POLLING_MODE
 )
 
-var hypervNestedFeatureOptimizationFlags uint64
+type HypervNestedFeatureOptimization uint64
 
-func HypervHasNestedFeatureOptimization(flag uint64) bool {
-	return (hypervNestedFeatureOptimizationFlags & flag) != 0
+func (r HypervNestedFeatureOptimization) toFlag() uint64 {
+	return uint64(r)
 }
 
-var HypervNestedFeatureOptimizationNames = map[uint64]string{
+var hypervNestedFeatureOptimizationFlags uint64
+
+func HypervHasNestedFeatureOptimization(nestedFeatureOptimization HypervNestedFeatureOptimization) bool {
+	return (hypervNestedFeatureOptimizationFlags & nestedFeatureOptimization.toFlag()) != 0
+}
+
+var HypervNestedFeatureOptimizationNames = map[HypervNestedFeatureOptimization]string{
 	HYPERV_NESTED_OPTIMIZATION_DIRECT_VIRTUAL_FLUSH_HYPERCALL: "HYPERV_NESTED_OPTIMIZATION_DIRECT_VIRTUAL_FLUSH_HYPERCALL",
 	HYPERV_NESTED_OPTIMIZATION_HV_FLUSH_GUEST_PHYS_ADDR_LIST:  "HYPERV_NESTED_OPTIMIZATION_HV_FLUSH_GUEST_PHYS_ADDR_LIST",
 	HYPERV_NESTED_OPTIMIZATION_ENLIGHTENED_MSR_BITMAP:         "HYPERV_NESTED_OPTIMIZATION_ENLIGHTENED_MSR_BITMAP",
 }
 
 const (
-	_ = uint64(1) << iota
+	_ = HypervNestedFeatureOptimization(1) << iota
 	_
 	_
 	_

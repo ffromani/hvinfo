@@ -59,6 +59,75 @@ func GetHypervFeatures(enabled bool) *HypervFeatures {
 	}
 }
 
+type HypervPartitionPrivileges struct {
+	AccessVpRunTimeReg              bool
+	AccessPartitionReferenceCounter bool
+	AccessSynicRegs                 bool
+	AccessSyntheticTimerRegs        bool
+	AccessIntrCtrlRegs              bool
+	AccessHypercallMsrs             bool
+	AccessVpIndex                   bool
+	AccessResetReg                  bool
+	AccessStatsReg                  bool
+	AccessPartitionReferenceTsc     bool
+	AccessGuestIdleReg              bool
+	AccessFrequencyRegs             bool
+	AccessDebugRegs                 bool
+	AccessReenlightenmentControls   bool
+
+	CreatePartitions         bool
+	AccessPartitionId        bool
+	AccessMemoryPool         bool
+	PostMessages             bool
+	SignalEvents             bool
+	CreatePort               bool
+	ConnectPort              bool
+	AccessStats              bool
+	Debugging                bool
+	CpuManagement            bool
+	AccessVSM                bool
+	AccessVpRegisters        bool
+	EnableExtendedHypercalls bool
+	StartVirtualProcessor    bool
+}
+
+func GetHypervPrivileges(enabled bool) *HypervPartitionPrivileges {
+	if !enabled {
+		return nil
+	}
+	return &HypervPartitionPrivileges{
+		AccessVpRunTimeReg:              cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessVpRunTimeRegs),
+		AccessPartitionReferenceCounter: cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessPartitionReferenceCounter),
+		AccessSynicRegs:                 cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessSynicRegs),
+		AccessSyntheticTimerRegs:        cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessSyntheticTimerRegs),
+		AccessIntrCtrlRegs:              cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessIntrCtrlRegs),
+		AccessHypercallMsrs:             cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessHypercallMsrs),
+		AccessVpIndex:                   cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessVpIndex),
+		AccessResetReg:                  cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessResetReg),
+		AccessStatsReg:                  cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessStatsReg),
+		AccessPartitionReferenceTsc:     cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessPartitionReferenceTsc),
+		AccessGuestIdleReg:              cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessGuestIdleReg),
+		AccessFrequencyRegs:             cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessFrequencyRegs),
+		AccessDebugRegs:                 cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessDebugRegs),
+		AccessReenlightenmentControls:   cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessReenlightenmentControls),
+
+		CreatePartitions:         cpuid.HypervHasPrivilege(cpuid.HYPERV_CreatePartitions),
+		AccessPartitionId:        cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessPartitionId),
+		AccessMemoryPool:         cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessMemoryPool),
+		PostMessages:             cpuid.HypervHasPrivilege(cpuid.HYPERV_PostMessages),
+		SignalEvents:             cpuid.HypervHasPrivilege(cpuid.HYPERV_SignalEvents),
+		CreatePort:               cpuid.HypervHasPrivilege(cpuid.HYPERV_CreatePort),
+		ConnectPort:              cpuid.HypervHasPrivilege(cpuid.HYPERV_ConnectPort),
+		AccessStats:              cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessStats),
+		Debugging:                cpuid.HypervHasPrivilege(cpuid.HYPERV_Debugging),
+		CpuManagement:            cpuid.HypervHasPrivilege(cpuid.HYPERV_CpuManagement),
+		AccessVSM:                cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessVSM),
+		AccessVpRegisters:        cpuid.HypervHasPrivilege(cpuid.HYPERV_AccessVpRegisters),
+		EnableExtendedHypercalls: cpuid.HypervHasPrivilege(cpuid.HYPERV_EnableExtendedHypercalls),
+		StartVirtualProcessor:    cpuid.HypervHasPrivilege(cpuid.HYPERV_StartVirtualProcessor),
+	}
+}
+
 type HypervRecommendations struct {
 	HypercallAddressSpaceSwitch   bool
 	HypercallLocalTLBFlush        bool
@@ -169,16 +238,24 @@ func GetHypervNestedInfo(enabled bool) *HypervNestedInfo {
 
 type HypervInfo struct {
 	HyperVsupport   bool
-	Features        *HypervFeatures        `json:",omitempty"`
-	Recommendations *HypervRecommendations `json:",omitempty"`
-	NestedInfo      *HypervNestedInfo      `json:",omitempty"`
+	VendorId        string                     `json:",omitempty"`
+	Features        *HypervFeatures            `json:",omitempty"`
+	Privileges      *HypervPartitionPrivileges `json:",omitempty"`
+	Recommendations *HypervRecommendations     `json:",omitempty"`
+	NestedInfo      *HypervNestedInfo          `json:",omitempty"`
+}
+
+func hypervEnabled() bool {
+	return cpuid.HypervInterfaceSignatureString == cpuid.HypervInterfaceSignature
 }
 
 func main() {
-	enabled := cpuid.HypervSupportEnabled()
+	enabled := hypervEnabled()
 	info := HypervInfo{
 		HyperVsupport:   enabled,
+		VendorId:        cpuid.HypervVendorIDSignatureString,
 		Features:        GetHypervFeatures(enabled),
+		Privileges:      GetHypervPrivileges(enabled),
 		Recommendations: GetHypervRecommendations(enabled),
 		NestedInfo:      GetHypervNestedInfo(enabled && cpuid.HypervHasAdditionalNestedEnlightenments()),
 	}
