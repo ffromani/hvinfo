@@ -233,7 +233,8 @@ func leaf0x40000001() {
 }
 
 func leaf0x40000003() {
-	_, _, _, edx := cpuid_low(0x40000003, 0)
+	eax, ebx, _, edx := cpuid_low(0x40000003, 0)
+	hypervPartitionPrivilegeFlags = uint64(eax) | (uint64(ebx) << 32)
 	hypervFeatureFlags = uint64(edx)
 }
 
